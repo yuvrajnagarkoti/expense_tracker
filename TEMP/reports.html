@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-4">
+    <h2 class="mb-4">Reports</h2>
+
+    <h4>Monthly Breakdown</h4>
+    <table class="table table-bordered mb-4">
+        <thead><tr><th>Month</th><th>Transactions</th><th>Total</th></tr></thead>
+        <tbody>
+            {% for m in monthly %}
+            <tr>
+                <td>{{ m.month_name }}</td>
+                <td>{{ m.count }}</td>
+                <td>₹{{ "%.2f"|format(m.total) }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="3" class="text-center">No data</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h4>Category Breakdown</h4>
+    <table class="table table-bordered mb-4">
+        <thead><tr><th>Category</th><th>Transactions</th><th>Total</th></tr></thead>
+        <tbody>
+            {% for c in categories %}
+            <tr><td>{{ c.name }}</td><td>{{ c.count }}</td><td>₹{{ "%.2f"|format(c.total) }}</td></tr>
+            {% else %}
+            <tr><td colspan="3" class="text-center">No data</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h4>Top 10 Expenses</h4>
+    <table class="table table-bordered">
+        <thead><tr><th>Date</th><th>Category</th><th>Amount</th><th>Note</th></tr></thead>
+        <tbody>
+            {% for t in top_expenses %}
+            <tr>
+                <td>{{ t.date.strftime('%d %b %Y') if t.date is not string else t.date }}</td>
+                <td>{{ t.category }}</td>
+                <td>₹{{ "%.2f"|format(t.amount) }}</td>
+                <td>{{ t.note or '-' }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="4" class="text-center">No expenses</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
